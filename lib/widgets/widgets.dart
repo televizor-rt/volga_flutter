@@ -1,0 +1,1 @@
+export 'parcel_info.dart';
