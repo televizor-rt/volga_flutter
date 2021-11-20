@@ -1,13 +1,16 @@
 import 'package:auto_route/annotations.dart';
 import 'package:volga/pages/pages.dart';
+import 'package:volga/pages/role/role.dart';
 
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    AutoRoute(page: MainPage, initial: true, children: [
+    AutoRoute(page: RoleScreen, initial: true),
+    AutoRoute(page: MainPage, children: [
       AutoRoute(
         name: 'TrackTabRouter',
         page: TrackTab,
+        initial: true,
       ),
       AutoRoute(
         name: 'SendTabRouter',
