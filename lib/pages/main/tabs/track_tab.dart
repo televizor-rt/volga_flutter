@@ -11,6 +11,7 @@ class TrackTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final TextEditingController trainController = TextEditingController();
     return Scaffold(
       body: Stack(
         children: [
@@ -54,7 +55,7 @@ class TrackTab extends StatelessWidget {
               ),
             ],
           ),
-          const DetailPanel(),
+          DetailPanel(trainController: trainController),
         ],
       ),
     );

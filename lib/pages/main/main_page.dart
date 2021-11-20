@@ -39,10 +39,10 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter(
-      routes: const [
-        TrackTabRouter(),
+      routes: [
+        const TrackTabRouter(),
         SendTabRouter(),
-        TimeTableTabRouter(),
+        const TimeTableTabRouter(),
       ],
       builder: (context, child, animation) {
         final tabsRouter = AutoTabsRouter.of(context);

@@ -32,8 +32,10 @@ class AppRouter extends _i2.RootStackRouter {
           routeData: routeData, child: const _i1.TrackTab());
     },
     SendTabRouter.name: (routeData) {
+      final args = routeData.argsAs<SendTabRouterArgs>(
+          orElse: () => const SendTabRouterArgs());
       return _i2.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i1.SendTab());
+          routeData: routeData, child: _i1.SendTab(key: args.key));
     },
     TimeTableTabRouter.name: (routeData) {
       return _i2.MaterialPageX<dynamic>(
@@ -92,10 +94,22 @@ class TrackTabRouter extends _i2.PageRouteInfo<void> {
 }
 
 /// generated route for [_i1.SendTab]
-class SendTabRouter extends _i2.PageRouteInfo<void> {
-  const SendTabRouter() : super(name, path: 'send-tab');
+class SendTabRouter extends _i2.PageRouteInfo<SendTabRouterArgs> {
+  SendTabRouter({_i3.Key? key})
+      : super(name, path: 'send-tab', args: SendTabRouterArgs(key: key));
 
   static const String name = 'SendTabRouter';
+}
+
+class SendTabRouterArgs {
+  const SendTabRouterArgs({this.key});
+
+  final _i3.Key? key;
+
+  @override
+  String toString() {
+    return 'SendTabRouterArgs{key: $key}';
+  }
 }
 
 /// generated route for [_i1.TimeTableTab]

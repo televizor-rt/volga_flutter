@@ -5,6 +5,8 @@ const double tabBarHeight = 70.0;
 
 class VolgaSliverAppBar extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _trackController = TextEditingController();
 
   VolgaSliverAppBar({required this.expandedHeight});
 
@@ -15,8 +17,6 @@ class VolgaSliverAppBar extends SliverPersistentHeaderDelegate {
     bool overlapsContent,
   ) {
     final theme = Theme.of(context);
-    final _formKey = GlobalKey<FormState>();
-    final TextEditingController _trackController = TextEditingController();
     return Stack(
       children: [
         Container(
@@ -135,7 +135,7 @@ class VolgaSliverAppBar extends SliverPersistentHeaderDelegate {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

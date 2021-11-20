@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (BuildContext context) => getIt<DetailCubit>()),
+        BlocProvider(create: (BuildContext context) => getIt<SendBloc>()),
       ],
       child: MaterialApp.router(
         theme: VolgaTheme.theme,

@@ -43,6 +43,11 @@ class VolgaTheme {
             fontFamily: 'Raleway',
             fontWeight: FontWeight.w500,
           ),
+          subtitle2: TextStyle(
+            fontSize: 10,
+            fontFamily: 'Raleway',
+            fontWeight: FontWeight.w500,
+          ),
         ),
       );
 }
