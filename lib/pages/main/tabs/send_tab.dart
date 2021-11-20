@@ -8,8 +8,8 @@ class SendTab extends StatelessWidget {
   final TextEditingController senderName = TextEditingController();
   final TextEditingController senderPhone = TextEditingController();
   final TextEditingController senderStation = TextEditingController();
-  final TextEditingController receiverName = TextEditingController();
-  final TextEditingController receiverPhone = TextEditingController();
+  final TextEditingController addresseeName = TextEditingController();
+  final TextEditingController addresseePhone = TextEditingController();
   final TextEditingController receiverStation = TextEditingController();
 
   Widget _loading() {
@@ -37,22 +37,53 @@ class SendTab extends StatelessWidget {
     );
   }
 
+  Widget _backButton(ThemeData theme) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {},
+        child: Text(
+          'Дальше',
+          style: theme.textTheme.headline2!.copyWith(
+            color: theme.primaryColorLight,
+          ),
+        ),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(
+            Colors.black,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    String title = 'Размер посылки';
     return CustomScrollView(
       slivers: [
         const SliverPersistentHeader(
-          delegate: SendAppBar(title: 'Отправить посылку'),
+          delegate: SendAppBar(),
           pinned: true,
         ),
         BlocBuilder<SendBloc, SendState>(
           builder: (context, state) {
             if (state is SendLoadingState) {
               return _loading();
+            } else if (state is ChooseSizeState) {
+              return _title(theme: theme, title: state.title);
+            } else if (state is TransportationState) {
+              return _title(theme: theme, title: state.title);
+            } else if (state is CheckState) {
+              return const SliverToBoxAdapter(
+                child: SizedBox(),
+              );
+            } else if (state is CloseState) {
+              return const SliverToBoxAdapter(
+                child: SizedBox(),
+              );
             } else {
-              return _title(theme: theme, title: title);
+              return _loading();
             }
           },
         ),
@@ -66,10 +97,14 @@ class SendTab extends StatelessWidget {
                 senderName: senderName,
                 senderPhone: senderPhone,
                 senderStation: senderStation,
-                receiverName: receiverName,
-                receiverPhone: receiverPhone,
-                receiverStation: receiverStation,
+                addresseeName: addresseeName,
+                addresseePhone: addresseePhone,
+                addresseeStation: receiverStation,
               );
+            } else if (state is CheckState) {
+              return CheckTab(state: state);
+            } else if (state is CloseState) {
+              return const FinalTab();
             } else {
               return _loading();
             }

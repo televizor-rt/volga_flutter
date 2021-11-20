@@ -7,6 +7,8 @@ class VolgaTheme {
         splashColor: Colors.grey,
         primaryColorLight: Colors.white,
         shadowColor: Colors.black54,
+        hoverColor: const Color(0xFFE6E6E6),
+        disabledColor: const Color(0xFFF5F5F5),
         textTheme: const TextTheme(
           headline1: TextStyle(
             fontSize: 28,

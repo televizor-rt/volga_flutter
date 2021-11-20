@@ -4,6 +4,13 @@ abstract class SendEvent extends Equatable {
   const SendEvent();
 }
 
+class InitSendEvent extends SendEvent {
+  const InitSendEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class ChooseSizeSendEvent extends SendEvent {
   final BoxSize size;
 
@@ -15,12 +22,17 @@ class ChooseSizeSendEvent extends SendEvent {
 
 class ChooseTransportSendEvent extends SendEvent {
   final TransportType type;
-  final User user;
+  final User addressee;
+  final User sender;
 
-  const ChooseTransportSendEvent({required this.type, required this.user});
+  const ChooseTransportSendEvent({
+    required this.type,
+    required this.addressee,
+    required this.sender,
+  });
 
   @override
-  List<Object?> get props => [type, user];
+  List<Object?> get props => [type, sender, addressee];
 }
 
 class CheckSendEvent extends SendEvent {

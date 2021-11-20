@@ -36,7 +36,7 @@ class TimeTableTab extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         const SliverPersistentHeader(
-          delegate: SendAppBar(title: 'Расписание поездов'),
+          delegate: TimeAppBar(title: 'Расписание поездов'),
           pinned: true,
         ),
         SliverToBoxAdapter(

@@ -2,31 +2,43 @@ part of 'send_bloc.dart';
 
 abstract class SendState extends Equatable {
   final SendPack sendPack;
-  const SendState({required this.sendPack});
+  final String title;
+  final String mainTitle;
+  const SendState({
+    required this.sendPack,
+    required this.title,
+    required this.mainTitle,
+  });
 }
 
 class SendLoadingState extends SendState {
   const SendLoadingState({
     required SendPack sendPack,
-  }) : super(sendPack: sendPack);
+  }) : super(
+          sendPack: sendPack,
+          title: 'Loading',
+          mainTitle: 'Loading',
+        );
 
   @override
   List<Object> get props => [sendPack];
 }
 
-
 class ChooseSizeState extends SendState {
   final List<BoxSize> sizes;
-  final String title;
-
   const ChooseSizeState({
     required SendPack sendPack,
     required this.sizes,
-    required this.title,
-  }) : super(sendPack: sendPack);
+    required String title,
+    required String mainTitle,
+  }) : super(
+          sendPack: sendPack,
+          title: title,
+          mainTitle: mainTitle,
+        );
 
   @override
-  String toString() => 'TransportationState { title: $title }';
+  String toString() => 'ChooseSizeState { title: $title }';
 
   @override
   List<Object> get props => [sizes, title, sendPack];
@@ -34,13 +46,17 @@ class ChooseSizeState extends SendState {
 
 class TransportationState extends SendState {
   final List<TransportType> types;
-  final String title;
 
   const TransportationState({
     required SendPack sendPack,
     required this.types,
-    required this.title,
-  }) : super(sendPack: sendPack);
+    required String title,
+    required String mainTitle,
+  }) : super(
+          sendPack: sendPack,
+          title: title,
+          mainTitle: mainTitle,
+        );
 
   @override
   String toString() => 'TransportationState { title: $title }';
@@ -50,15 +66,36 @@ class TransportationState extends SendState {
 }
 
 class CheckState extends SendState {
-  final String title;
-
   const CheckState({
     required SendPack sendPack,
-    required this.title,
-  }) : super(sendPack: sendPack);
+    required String title,
+    required String mainTitle,
+  }) : super(
+          sendPack: sendPack,
+          title: title,
+          mainTitle: mainTitle,
+        );
 
   @override
-  String toString() => 'TransportationState { title: $title }';
+  String toString() => 'CheckState { title: $title }';
+
+  @override
+  List<Object?> get props => [title, sendPack];
+}
+
+class CloseState extends SendState {
+  const CloseState({
+    required SendPack sendPack,
+    required String title,
+    required String mainTitle,
+  }) : super(
+    sendPack: sendPack,
+    title: title,
+    mainTitle: mainTitle,
+  );
+
+  @override
+  String toString() => 'CloseState { title: $title }';
 
   @override
   List<Object?> get props => [title, sendPack];

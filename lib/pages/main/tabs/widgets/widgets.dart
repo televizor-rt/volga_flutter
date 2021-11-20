@@ -6,3 +6,6 @@ export 'send_app_bar.dart';
 export 'send_card.dart';
 export 'chose_size_variants.dart';
 export 'chose_transport_variants.dart';
+export 'time_app_bar.dart';
+export 'check_tab.dart';
+export 'final_tab.dart';

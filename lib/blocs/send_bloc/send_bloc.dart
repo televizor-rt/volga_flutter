@@ -11,27 +11,42 @@ class SendBloc extends Bloc<SendEvent, SendState> {
   SendBloc({
     required this.volgaRepository,
   }) : super(
-    ChooseSizeState(
+          ChooseSizeState(
             sendPack: const SendPack(),
             sizes: volgaRepository.boxSizes,
             title: 'Размер посылки',
+            mainTitle: 'Отправить посылку',
           ),
         ) {
     on<SendEvent>((event, emit) {
+      on<InitSendEvent>(_onInitSendEvent);
       on<ChooseSizeSendEvent>(_onChooseSizeSendEvent);
       on<ChooseTransportSendEvent>(_onChooseTransportSendEvent);
+      on<CheckSendEvent>(_onCheckSendEvent);
     });
+  }
+
+  void _onInitSendEvent(SendEvent event, Emitter<SendState> emit) {
+    event as InitSendEvent;
+    emit(ChooseSizeState(
+      sendPack: const SendPack(),
+      sizes: volgaRepository.boxSizes,
+      title: 'Размер посылки',
+      mainTitle: 'Отправить посылку',
+    ));
   }
 
   void _onChooseSizeSendEvent(SendEvent event, Emitter<SendState> emit) {
     event as ChooseSizeSendEvent;
     emit(TransportationState(
       sendPack: SendPack(
-        user: state.sendPack.user,
+        sender: state.sendPack.sender,
+        addressee: state.sendPack.addressee,
         size: event.size,
         type: state.sendPack.type,
       ),
       title: 'Способ перевозки',
+      mainTitle: 'Отправить посылку',
       types: volgaRepository.transportTypes,
     ));
   }
@@ -40,11 +55,21 @@ class SendBloc extends Bloc<SendEvent, SendState> {
     event as ChooseTransportSendEvent;
     emit(CheckState(
       sendPack: SendPack(
-        user: event.user,
+        sender: event.sender,
+        addressee: event.addressee,
         size: state.sendPack.size,
         type: event.type,
       ),
       title: 'Способ перевозки',
+      mainTitle: 'Проверьте данные',
+    ));
+  }
+
+  void _onCheckSendEvent(SendEvent event, Emitter<SendState> emit) {
+    emit(CloseState(
+      sendPack: state.sendPack,
+      title: 'Заявка на рассмотрении',
+      mainTitle: '',
     ));
   }
 }

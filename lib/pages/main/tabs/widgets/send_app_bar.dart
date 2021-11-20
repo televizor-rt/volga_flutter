@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:volga/blocs/blocs.dart';
 
 class SendAppBar extends SliverPersistentHeaderDelegate {
-  final String title;
-  const SendAppBar({required this.title});
+  const SendAppBar();
 
   @override
   Widget build(
-      BuildContext context,
-      double shrinkOffset,
-      bool overlapsContent,
-      ) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     final theme = Theme.of(context);
     return Container(
       decoration: const BoxDecoration(
@@ -26,26 +27,62 @@ class SendAppBar extends SliverPersistentHeaderDelegate {
           right: 10.0,
           left: 20.0,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: theme.textTheme.headline4!.copyWith(
-                color: theme.primaryColorDark,
+        child: BlocBuilder<SendBloc, SendState>(builder: (context, state) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    state.mainTitle,
+                    style: theme.textTheme.headline4!.copyWith(
+                      color: theme.primaryColorDark,
+                    ),
+                  ),
+                  const SizedBox(width: 10.0),
+                  BlocBuilder<SendBloc, SendState>(
+                    builder: (context, state) {
+                      if (state is TransportationState) {
+                        return SizedBox(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              context.read<SendBloc>().add(
+                                    const InitSendEvent(),
+                                  );
+                            },
+                            child: Text(
+                              'Назад',
+                              style: theme.textTheme.subtitle1!.copyWith(
+                                color: theme.primaryColorLight,
+                              ),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                theme.bottomAppBarColor,
+                              ),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return const SizedBox();
+                      }
+                    },
+                  )
+                ],
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        }),
       ),
     );
   }
 
   @override
-  double get maxExtent => 80;
+  double get maxExtent => 100;
 
   @override
-  double get minExtent => 80;
+  double get minExtent => 100;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;

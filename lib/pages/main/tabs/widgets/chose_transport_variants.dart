@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/src/provider.dart';
 import 'package:volga/blocs/blocs.dart';
+import 'package:volga/models/models.dart';
 
 import '../../../pages.dart';
 
@@ -8,18 +11,18 @@ class ChoseTransportVariants extends StatefulWidget {
   final TextEditingController senderName;
   final TextEditingController senderPhone;
   final TextEditingController senderStation;
-  final TextEditingController receiverName;
-  final TextEditingController receiverPhone;
-  final TextEditingController receiverStation;
+  final TextEditingController addresseeName;
+  final TextEditingController addresseePhone;
+  final TextEditingController addresseeStation;
 
   const ChoseTransportVariants({
     required this.state,
     required this.senderName,
     required this.senderPhone,
     required this.senderStation,
-    required this.receiverName,
-    required this.receiverPhone,
-    required this.receiverStation,
+    required this.addresseeName,
+    required this.addresseePhone,
+    required this.addresseeStation,
     Key? key,
   }) : super(key: key);
 
@@ -48,7 +51,11 @@ class _ChoseTransportVariantsState extends State<ChoseTransportVariants> {
                 SendCard(
                   onPressed: () {
                     setState(() {
-                      _chosenIndex = index;
+                      if (_chosenIndex != index) {
+                        _chosenIndex = index;
+                      } else {
+                        _chosenIndex = -1;
+                      }
                     });
                   },
                   image: SizedBox(
@@ -102,24 +109,151 @@ class _ChoseTransportVariantsState extends State<ChoseTransportVariants> {
                     ],
                   ),
                 ),
-                chosen ? Card(
-                  child: Form(
-                    key: _userKey,
-                    child: SizedBox(
-                      width: 256.0,
-                      height: 41.0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(3.0),
-                        child: TextFormField(
-                          controller: widget.senderName,
-                          style: theme.textTheme.bodyText1!.copyWith(
-                            color: theme.primaryColorDark,
+                chosen
+                    ? Card(
+                        child: Form(
+                          key: _userKey,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Информация об отправителе',
+                                  style: theme.textTheme.subtitle1!.copyWith(
+                                    color: theme.primaryColorDark,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  'Имя',
+                                  style: theme.textTheme.subtitle2!.copyWith(
+                                    color: theme.splashColor,
+                                  ),
+                                ),
+                                TextFormField(
+                                  controller: widget.senderName,
+                                  style: theme.textTheme.bodyText1!.copyWith(
+                                    color: theme.primaryColorDark,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  'Номер телефона',
+                                  style: theme.textTheme.subtitle2!.copyWith(
+                                    color: theme.splashColor,
+                                  ),
+                                ),
+                                TextFormField(
+                                  controller: widget.senderPhone,
+                                  style: theme.textTheme.bodyText1!.copyWith(
+                                    color: theme.primaryColorDark,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  'Станция',
+                                  style: theme.textTheme.subtitle2!.copyWith(
+                                    color: theme.splashColor,
+                                  ),
+                                ),
+                                TextFormField(
+                                  controller: widget.senderStation,
+                                  style: theme.textTheme.bodyText1!.copyWith(
+                                    color: theme.primaryColorDark,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  'Информация о получателе',
+                                  style: theme.textTheme.subtitle1!.copyWith(
+                                    color: theme.primaryColorDark,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  'Имя',
+                                  style: theme.textTheme.subtitle2!.copyWith(
+                                    color: theme.splashColor,
+                                  ),
+                                ),
+                                TextFormField(
+                                  controller: widget.addresseeName,
+                                  style: theme.textTheme.bodyText1!.copyWith(
+                                    color: theme.primaryColorDark,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  'Номер телефона',
+                                  style: theme.textTheme.subtitle2!.copyWith(
+                                    color: theme.splashColor,
+                                  ),
+                                ),
+                                TextFormField(
+                                  controller: widget.addresseePhone,
+                                  style: theme.textTheme.bodyText1!.copyWith(
+                                    color: theme.primaryColorDark,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                Text(
+                                  'Станция',
+                                  style: theme.textTheme.subtitle2!.copyWith(
+                                    color: theme.splashColor,
+                                  ),
+                                ),
+                                TextFormField(
+                                  controller: widget.addresseeStation,
+                                  style: theme.textTheme.bodyText1!.copyWith(
+                                    color: theme.primaryColorDark,
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      User sender = User(
+                                        userName: widget.senderName.text,
+                                        userPhone: widget.senderPhone.text,
+                                        userAddress: widget.senderStation.text,
+                                      );
+                                      User addressee = User(
+                                        userName: widget.addresseeName.text,
+                                        userPhone: widget.addresseePhone.text,
+                                        userAddress: widget.addresseeStation.text,
+                                      );
+                                      context.read<SendBloc>().add(
+                                            ChooseTransportSendEvent(
+                                              type: currentType,
+                                              sender: sender,
+                                              addressee: addressee,
+                                            ),
+                                          );
+                                    },
+                                    child: Text(
+                                      'Дальше',
+                                      style:
+                                          theme.textTheme.headline2!.copyWith(
+                                        color: theme.primaryColorLight,
+                                      ),
+                                    ),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                        Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 50),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                ) : const SizedBox(),
+                      )
+                    : const SizedBox(),
               ],
             ),
           );
