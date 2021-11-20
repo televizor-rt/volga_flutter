@@ -9,3 +9,4 @@ export 'chose_transport_variants.dart';
 export 'time_app_bar.dart';
 export 'check_tab.dart';
 export 'final_tab.dart';
+export 'qr_form.dart';

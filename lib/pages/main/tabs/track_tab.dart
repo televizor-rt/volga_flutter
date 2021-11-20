@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:volga/widgets/widgets.dart';
 
 import '../../pages.dart';
@@ -12,6 +13,7 @@ class TrackTab extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final TextEditingController trainController = TextEditingController();
+    final PanelController panelController = PanelController();
     return Scaffold(
       body: Stack(
         children: [
@@ -55,7 +57,10 @@ class TrackTab extends StatelessWidget {
               ),
             ],
           ),
-          DetailPanel(trainController: trainController),
+          DetailPanel(
+            trainController: trainController,
+            panelController: panelController,
+          ),
         ],
       ),
     );

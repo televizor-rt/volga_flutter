@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../../pages.dart';
@@ -33,6 +36,11 @@ class TimeTableTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    Completer<GoogleMapController> _controller = Completer();
+    final CameraPosition _ulanUde = const CameraPosition(
+      target: LatLng(51.843597, 107.582297),
+      zoom: 14.4746,
+    );
     return CustomScrollView(
       slivers: [
         const SliverPersistentHeader(
@@ -42,7 +50,17 @@ class TimeTableTab extends StatelessWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Image.asset('assets/images/map.png'),
+            child: SizedBox(
+              width: 327,
+              height: 221,
+              child: GoogleMap(
+                mapType: MapType.hybrid,
+                initialCameraPosition: _ulanUde,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+              ),
+            ),
           ),
         ),
         SliverList(

@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/src/provider.dart';
 import 'package:volga/blocs/blocs.dart';
 import 'package:volga/models/models.dart';
 
@@ -23,19 +22,14 @@ class CheckTab extends StatefulWidget {
 }
 
 class _CheckTabState extends State<CheckTab> {
-  List<XFile>? _imageFileList;
-  dynamic _pickImageError;
-
-  set _imageFile(XFile? value) {
-    _imageFileList = value == null ? null : [value];
-  }
+  File? _file;
 
   Widget _image() {
-    if (_imageFileList != null) {
+    if (_file != null) {
       return SizedBox(
         width: 200.0,
         height: 200.0,
-        child: Image.file(File(_imageFileList![0].path)),
+        child: Image.file(_file!),
       );
     } else {
       return SizedBox(
@@ -98,36 +92,8 @@ class _CheckTabState extends State<CheckTab> {
       source: ImageSource.camera,
     );
     setState(() {
-      _imageFile = pickedFile;
+      _file = File(pickedFile!.path);
     });
-  }
-
-  Future<void> _displayPickImageDialog(
-      BuildContext context, OnPickImageCallback onPick) async {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Add optional parameters'),
-          content: const Text('Add optional parameters'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('CANCEL'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('PICK'),
-              onPressed: () {
-                onPick(500, 500, 200);
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -256,9 +222,16 @@ class _CheckTabState extends State<CheckTab> {
                                   width: double.infinity,
                                   child: ElevatedButton(
                                     onPressed: () {
+                                      var sendPack = SendPack(
+                                        sender: state.sendPack.sender,
+                                        addressee: state.sendPack.addressee,
+                                        size: state.sendPack.size,
+                                        type: state.sendPack.type,
+                                        image: state.sendPack.image,
+                                      );
                                       context.read<SendBloc>().add(
                                             CheckSendEvent(
-                                              pack: state.sendPack,
+                                              pack: sendPack,
                                             ),
                                           );
                                     },

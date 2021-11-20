@@ -1,37 +1,64 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:volga/blocs/blocs.dart';
 
 import '../tabs.dart';
 
-class DetailPanel extends StatelessWidget {
+class DetailPanel extends StatefulWidget {
   final TextEditingController trainController;
-  DetailPanel({
+  final PanelController panelController;
+  const DetailPanel({
     required this.trainController,
+    required this.panelController,
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<DetailPanel> createState() => _DetailPanelState();
+}
+
+class _DetailPanelState extends State<DetailPanel> {
   final _trainKey = GlobalKey<FormState>();
+
+  Future<void> scanQR() async {
+    String barcodeScanRes;
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Закрыть', true, ScanMode.QR);
+    } on PlatformException {
+      barcodeScanRes = 'Прочитать код не вышло';
+    }
+    if (!mounted) return;
+
+    setState(() {
+      if (barcodeScanRes != '-1') {
+        widget.trainController.text = barcodeScanRes;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final PanelController panelController = PanelController();
+    bool? opened;
     return BlocBuilder<DetailCubit, DetailState>(
       builder: (context, state) {
         switch (state.status) {
           case PanelStatus.init:
             break;
           case PanelStatus.open:
-            Future.microtask(() => panelController.open());
+            Future.microtask(() => widget.panelController.open());
             break;
           case PanelStatus.closed:
-            Future.microtask(() => panelController.close());
+            Future.microtask(() => widget.panelController.close());
             break;
         }
         return SlidingUpPanel(
-          controller: panelController,
+          controller: widget.panelController,
           panel: CustomScrollView(
             slivers: [
               const SliverPersistentHeader(
@@ -159,7 +186,7 @@ class DetailPanel extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(3.0),
                               child: TextFormField(
-                                controller: trainController,
+                                controller: widget.trainController,
                                 style: theme.textTheme.bodyText1!.copyWith(
                                   color: theme.primaryColorDark,
                                 ),
@@ -175,7 +202,9 @@ class DetailPanel extends StatelessWidget {
                           width: MediaQuery.of(context).size.width - 47.0,
                           height: 75.0,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              scanQR();
+                            },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -213,7 +242,81 @@ class DetailPanel extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 30.0),
-                      const DetailPanelButton(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                        child: SizedBox(
+                          height: 75.0,
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                if (opened != null) {
+                                  opened = !opened!;
+                                } else {
+                                  opened = true;
+                                }
+                              });
+                            },
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 55.0,
+                                  height: 55.0,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).bottomAppBarColor,
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(30),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      'assets/icons/send_white.png',
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Заявка создана',
+                                        style: theme.textTheme.subtitle2!.copyWith(
+                                          color: theme.primaryColorDark,
+                                        ),
+                                      ),
+                                      Text(
+                                        '20.11.2021 - 20:45',
+                                        style: theme.textTheme.subtitle2!.copyWith(
+                                          color: theme.primaryColorDark,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: 18.0,
+                                    height: 18.0,
+                                    child: Image.asset(
+                                      opened ?? false
+                                          ? 'assets/icons/up.png'
+                                          : 'assets/icons/down.png',
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

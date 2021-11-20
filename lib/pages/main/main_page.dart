@@ -40,7 +40,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return AutoTabsRouter(
       routes: [
-        const TrackTabRouter(),
+        TrackTabRouter(),
         SendTabRouter(),
         const TimeTableTabRouter(),
       ],
