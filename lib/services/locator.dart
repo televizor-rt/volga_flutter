@@ -12,6 +12,9 @@ Future locatorSetup() async {
   getIt.registerFactory<DetailCubit>(
     () => DetailCubit(),
   );
+  getIt.registerFactory<TrackCubit>(
+    () => TrackCubit(),
+  );
   getIt.registerFactory<SendBloc>(() => SendBloc(volgaRepository: getIt()));
   // Repository
   getIt.registerLazySingleton<VolgaRepository>(() => VolgaRepositoryImpl());

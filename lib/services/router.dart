@@ -31,6 +31,17 @@ import 'package:volga/pages/role/role.dart';
         page: SchemaTab,
       ),
     ]),
+    AutoRoute(page: TrainMasterScreen, name: 'TrainMasterRouter', children: [
+      AutoRoute(
+        name: 'MyClaimsRouter',
+        page: MyClaims,
+        initial: true,
+      ),
+      AutoRoute(
+        name: 'MyDeparturesRouter',
+        page: MyDepartures,
+      ),
+    ]),
   ],
 )
-class $AppRouter {}        
+class $AppRouter {}

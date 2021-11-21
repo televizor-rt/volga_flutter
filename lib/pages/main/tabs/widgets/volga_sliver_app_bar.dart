@@ -39,16 +39,6 @@ class VolgaSliverAppBar extends SliverPersistentHeaderDelegate {
                     color: theme.primaryColorLight,
                   ),
                 ),
-                const SizedBox(width: 20.0),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20.0),
-                  child: Image.asset(
-                    'assets/images/avatar.jpg',
-                    fit: BoxFit.cover,
-                    height: 30.0,
-                    width: 30.0,
-                  ),
-                ),
               ],
             ),
           ),

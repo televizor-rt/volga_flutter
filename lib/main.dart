@@ -42,6 +42,9 @@ class MyApp extends StatelessWidget {
                 BlocProvider(
                   create: (BuildContext context) => getIt<SendBloc>(),
                 ),
+                BlocProvider(
+                  create: (BuildContext context) => getIt<TrackCubit>(),
+                ),
               ],
               child: MaterialApp.router(
                 theme: VolgaTheme.theme,

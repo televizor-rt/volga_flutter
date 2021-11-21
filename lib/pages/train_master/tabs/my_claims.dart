@@ -9,8 +9,8 @@ import 'package:volga/widgets/widgets.dart';
 
 import '../../pages.dart';
 
-class TrackTab extends StatelessWidget {
-  const TrackTab({
+class MyClaims extends StatelessWidget {
+  const MyClaims({
     Key? key,
   }) : super(key: key);
 
@@ -132,7 +132,7 @@ class TrackTab extends StatelessWidget {
     } else {
       return SliverList(
         delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
+              (BuildContext context, int index) {
             return const Padding(
               padding: EdgeInsets.symmetric(
                 vertical: 15.0,

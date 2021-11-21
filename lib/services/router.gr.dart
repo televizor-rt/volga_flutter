@@ -32,6 +32,10 @@ class AppRouter extends _i3.RootStackRouter {
       return _i3.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i2.DetailsPage());
     },
+    TrainMasterRouter.name: (routeData) {
+      return _i3.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i2.TrainMasterScreen());
+    },
     TrackTabRouter.name: (routeData) {
       return _i3.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i2.TrackTab());
@@ -53,6 +57,14 @@ class AppRouter extends _i3.RootStackRouter {
     SchemaTabRouter.name: (routeData) {
       return _i3.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i2.SchemaTab());
+    },
+    MyClaimsRouter.name: (routeData) {
+      return _i3.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i2.MyClaims());
+    },
+    MyDeparturesRouter.name: (routeData) {
+      return _i3.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i2.MyDepartures());
     }
   };
 
@@ -72,7 +84,15 @@ class AppRouter extends _i3.RootStackRouter {
               path: 'map-tab', parent: DetailsRoute.name),
           _i3.RouteConfig(SchemaTabRouter.name,
               path: 'schema-tab', parent: DetailsRoute.name)
-        ])
+        ]),
+        _i3.RouteConfig(TrainMasterRouter.name,
+            path: '/train-master-screen',
+            children: [
+              _i3.RouteConfig(MyClaimsRouter.name,
+                  path: '', parent: TrainMasterRouter.name),
+              _i3.RouteConfig(MyDeparturesRouter.name,
+                  path: 'my-departures', parent: TrainMasterRouter.name)
+            ])
       ];
 }
 
@@ -97,6 +117,14 @@ class DetailsRoute extends _i3.PageRouteInfo<void> {
       : super(name, path: '/details-page', initialChildren: children);
 
   static const String name = 'DetailsRoute';
+}
+
+/// generated route for [_i2.TrainMasterScreen]
+class TrainMasterRouter extends _i3.PageRouteInfo<void> {
+  const TrainMasterRouter({List<_i3.PageRouteInfo>? children})
+      : super(name, path: '/train-master-screen', initialChildren: children);
+
+  static const String name = 'TrainMasterRouter';
 }
 
 /// generated route for [_i2.TrackTab]
@@ -144,4 +172,18 @@ class SchemaTabRouter extends _i3.PageRouteInfo<void> {
   const SchemaTabRouter() : super(name, path: 'schema-tab');
 
   static const String name = 'SchemaTabRouter';
+}
+
+/// generated route for [_i2.MyClaims]
+class MyClaimsRouter extends _i3.PageRouteInfo<void> {
+  const MyClaimsRouter() : super(name, path: '');
+
+  static const String name = 'MyClaimsRouter';
+}
+
+/// generated route for [_i2.MyDepartures]
+class MyDeparturesRouter extends _i3.PageRouteInfo<void> {
+  const MyDeparturesRouter() : super(name, path: 'my-departures');
+
+  static const String name = 'MyDeparturesRouter';
 }

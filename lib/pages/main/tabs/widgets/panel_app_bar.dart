@@ -14,6 +14,7 @@ class PanelAppBar extends SliverPersistentHeaderDelegate {
       ) {
     final theme = Theme.of(context);
     return Container(
+      width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(

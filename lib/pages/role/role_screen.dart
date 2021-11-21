@@ -59,7 +59,26 @@ class RoleScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            )
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: ElevatedButton(
+                onPressed: () {
+                  context.router.push(const MainRoute());
+                },
+                child: Text(
+                  'Начальник поезда',
+                  style: theme.textTheme.subtitle1!.copyWith(
+                    color: theme.primaryColorLight,
+                  ),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    theme.primaryColorDark,
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

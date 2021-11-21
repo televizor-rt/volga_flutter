@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:volga/blocs/blocs.dart';
 
 class QRForm extends StatefulWidget {
   const QRForm({Key? key}) : super(key: key);
@@ -28,6 +30,31 @@ class _QRFormState extends State<QRForm> {
         _trackController.text = barcodeScanRes;
       }
     });
+  }
+
+  Widget button({
+    required ThemeData theme,
+    required String text,
+    required bool light,
+    required VoidCallback onPressed,
+  }) {
+    return SizedBox(
+      height: 24,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: theme.textTheme.headline3!.copyWith(
+            color: light ? theme.primaryColorDark : theme.primaryColorLight,
+          ),
+        ),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(
+            light ? theme.hoverColor : theme.primaryColorDark,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -112,6 +139,41 @@ class _QRFormState extends State<QRForm> {
                   ),
                 ),
               ),
+            ),
+          ),
+          const SizedBox(
+            height: 50.0,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width - 37,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                button(
+                  theme: theme,
+                  text: 'От меня',
+                  light: true,
+                  onPressed: () {
+                    context.read<TrackCubit>().showFromMe();
+                  },
+                ),
+                button(
+                  theme: theme,
+                  text: 'Мне',
+                  light: true,
+                  onPressed: () {
+                    context.read<TrackCubit>().showMine();
+                  },
+                ),
+                button(
+                  theme: theme,
+                  text: 'Все',
+                  light: false,
+                  onPressed: () {
+                    context.read<TrackCubit>().showAll();
+                  },
+                ),
+              ],
             ),
           ),
         ],
