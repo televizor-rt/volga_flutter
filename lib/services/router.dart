@@ -5,7 +5,7 @@ import 'package:volga/pages/role/role.dart';
 @MaterialAutoRouter(
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    AutoRoute(page: RoleScreen, initial: true),
+    AutoRoute(page: RoleScreen, name: 'RoleScreenRouter', initial: true),
     AutoRoute(page: MainPage, children: [
       AutoRoute(
         name: 'TrackTabRouter',

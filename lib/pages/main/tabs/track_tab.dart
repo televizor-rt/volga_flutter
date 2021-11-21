@@ -26,6 +26,7 @@ class TrackTab extends StatelessWidget {
   Widget title({
     required TrackState state,
     required ThemeData theme,
+    required BuildContext context,
   }) {
     if (state is TrackMapState) {
       return const SliverToBoxAdapter(
@@ -36,11 +37,22 @@ class TrackTab extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Мои посылки',
                 style: theme.textTheme.bodyText2!.copyWith(
                   color: theme.primaryColorDark,
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  context.read<TrackCubit>().showMap();
+                },
+                child: SizedBox(
+                  width: 24.0,
+                  height: 24.0,
+                  child: Image.asset('assets/icons/map_red.png'),
                 ),
               ),
             ],
@@ -175,7 +187,11 @@ class TrackTab extends StatelessWidget {
               controller: scrollController,
               slivers: [
                 appBar(),
-                title(state: state, theme: theme),
+                title(
+                  state: state,
+                  theme: theme,
+                  context: context,
+                ),
                 mainBody(
                   state: state,
                   context: context,

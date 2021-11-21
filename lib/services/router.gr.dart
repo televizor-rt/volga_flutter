@@ -20,7 +20,7 @@ class AppRouter extends _i3.RootStackRouter {
 
   @override
   final Map<String, _i3.PageFactory> pagesMap = {
-    RoleScreen.name: (routeData) {
+    RoleScreenRouter.name: (routeData) {
       return _i3.MaterialPageX<dynamic>(
           routeData: routeData, child: const _i1.RoleScreen());
     },
@@ -70,7 +70,7 @@ class AppRouter extends _i3.RootStackRouter {
 
   @override
   List<_i3.RouteConfig> get routes => [
-        _i3.RouteConfig(RoleScreen.name, path: '/'),
+        _i3.RouteConfig(RoleScreenRouter.name, path: '/'),
         _i3.RouteConfig(MainRoute.name, path: '/main-page', children: [
           _i3.RouteConfig(TrackTabRouter.name,
               path: '', parent: MainRoute.name),
@@ -97,10 +97,10 @@ class AppRouter extends _i3.RootStackRouter {
 }
 
 /// generated route for [_i1.RoleScreen]
-class RoleScreen extends _i3.PageRouteInfo<void> {
-  const RoleScreen() : super(name, path: '/');
+class RoleScreenRouter extends _i3.PageRouteInfo<void> {
+  const RoleScreenRouter() : super(name, path: '/');
 
-  static const String name = 'RoleScreen';
+  static const String name = 'RoleScreenRouter';
 }
 
 /// generated route for [_i2.MainPage]
